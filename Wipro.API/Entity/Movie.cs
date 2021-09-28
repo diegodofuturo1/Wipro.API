@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Wipro.API.Entity
 {
-    public class Movie
+    public class Movie: BaseEntity
     {
         public string Name { get; set; }
         public string Gender { get; set; }

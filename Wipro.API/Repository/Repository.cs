@@ -5,16 +5,16 @@ using System.Linq;
 using System.Web;
 using Wipro.API.Entity;
 
-namespace Wipro.API.Repository
+namespace Wipro.API
 {
-    public class Repository
+    static public class Repository
     {
         static private readonly string server = "localhost";
         static private readonly string database = "wipro.database";
         static private readonly string user = "root";
         static private readonly string password = "123456";
 
-        public static MySqlConnection GetConnection()
+        private static MySqlConnection GetConnection()
         {
             var connString = $"Server={server};Database={database};User={user};Password={password}";
             var connection = new MySqlConnection(connString);

@@ -12,31 +12,31 @@ namespace Wipro.API.Controllers
         // GET api/customer
         public IEnumerable<Customer> Get()
         {
-            return Repository.Repository.Select<Customer>();
+            return Repository.Select<Customer>();
         }
 
         // GET api/customer/5
         public Customer Get(string id)
         {
-            return Repository.Repository.Select<Customer>("1");
+            return Repository.Select<Customer>(id);
         }
 
         // POST api/customer
         public void Post([FromBody] Customer customer)
         {
-            Repository.Repository.Insert(customer);
+            Repository.Insert(customer);
         }
 
         // PUT api/customer/5
         public void Put(string id, [FromBody] Customer customer)
         {
-            Repository.Repository.Update(customer);
+            Repository.Update(customer);
         }
 
         // DELETE api/customer/5
         public void Delete(string id)
         {
-            Repository.Repository.Delete<Customer>(id);
+            Repository.Delete<Customer>(id);
         }
     }
 }
