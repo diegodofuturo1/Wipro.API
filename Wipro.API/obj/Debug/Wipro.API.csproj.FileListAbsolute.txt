@@ -176,3 +176,6 @@ C:\Users\diego.heleno\Projetos\Wipro.API\Wipro.API\bin\K4os.Compression.LZ4.Stre
 C:\Users\diego.heleno\Projetos\Wipro.API\Wipro.API\bin\K4os.Hash.xxHash.xml
 C:\Users\diego.heleno\Projetos\Wipro.API\Wipro.API\bin\MySql.Data.xml
 C:\Users\diego.heleno\Projetos\Wipro.API\Wipro.API\obj\Debug\Wipro.API.csprojAssemblyReference.cache
+C:\Users\diego.heleno\Projetos\Wipro.API\Wipro.API\bin\System.Web.Cors.dll
+C:\Users\diego.heleno\Projetos\Wipro.API\Wipro.API\bin\System.Web.Http.Cors.dll
+C:\Users\diego.heleno\Projetos\Wipro.API\Wipro.API\bin\System.Web.Http.Cors.xml

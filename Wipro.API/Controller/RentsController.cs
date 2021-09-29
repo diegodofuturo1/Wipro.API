@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Wipro.API.Controllers
 {
+    [EnableCors(origins: "http://localhost:3000", headers: "*", methods: "*")]
     public class RentsController : ApiController
     {
         // GET api/rent

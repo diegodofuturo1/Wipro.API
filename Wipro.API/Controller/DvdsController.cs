@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Mvc;
 using Wipro.API.Entity;
 
 
 namespace Wipro.API.Controllers
 {
+    [EnableCors(origins: "http://localhost:3000", headers: "*", methods: "*")]
     public class DvdsController : ApiController
     {
         // GET api/dvd

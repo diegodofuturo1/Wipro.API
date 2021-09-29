@@ -1,9 +1,11 @@
 ﻿using System.Web.Http;
 using Wipro.API.Entity;
+using System.Web.Http.Cors;
 using System.Collections.Generic;
 
 namespace Wipro.API.Controllers
 {
+    [EnableCors(origins: "http://localhost:3000", headers: "*", methods: "*")]
     public class LocatorsController : ApiController
     {
         // GET api/locator

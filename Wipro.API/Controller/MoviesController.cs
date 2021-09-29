@@ -1,9 +1,11 @@
 ﻿using System.Web.Http;
 using Wipro.API.Entity;
 using System.Collections.Generic;
+using System.Web.Http.Cors;
 
 namespace Wipro.API.Controllers
 {
+    [EnableCors(origins: "http://localhost:3000", headers: "*", methods: "*")]
     public class MoviesController : ApiController
     {
         // GET api/movie
