@@ -11,7 +11,6 @@ namespace Wipro.API.Entity
         public string Gender { get; set; }
         public string ReleaseDate { get; set; }
         public string Duration { get; set; }
-        public string Director { get; set; }
         public string Image { get; set; }
     }
 }

@@ -1,18 +1,16 @@
-﻿using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using Wipro.API.Entity;
+using MySql.Data.MySqlClient;
+using System.Collections.Generic;
 
 namespace Wipro.API
 {
-    static public class Repository
+    public class Repository<T> where T: BaseEntity, new()
     {
-        static private readonly string server = "localhost";
-        static private readonly string database = "wipro.database";
         static private readonly string user = "root";
         static private readonly string password = "123456";
+        static private readonly string server = "localhost";
+        static private readonly string database = "wipro.database";
 
         private static MySqlConnection GetConnection()
         {
@@ -22,7 +20,7 @@ namespace Wipro.API
             return connection;
         }
 
-        public static T Select<T>(string id) where T : BaseEntity, new()
+        public T Select(string id)
         {
             using (var connection = GetConnection())
             {
@@ -30,15 +28,20 @@ namespace Wipro.API
                 var table = instance.GetType().Name;
 
                 var command = connection.CreateCommand();
+                
                 command.CommandText = $"SELECT * FROM {table} WHERE id = @id";
                 command.Parameters.AddWithValue("@id", id);
+        
                 var reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
                     instance.GetType().GetProperties().ToList().ForEach(property =>
                     {
-                        instance.GetType().GetProperty(property.Name).SetValue(instance, reader.GetString(property.Name));
+                        instance
+                            .GetType()
+                            .GetProperty(property.Name)
+                            .SetValue(instance, reader.GetString(property.Name));
                     });
                 }
 
@@ -46,7 +49,7 @@ namespace Wipro.API
             }
         }
 
-        public static List<T> Select<T>() where T : BaseEntity, new()
+        public List<T> Select()
         {
             using (var connection = GetConnection())
             {
@@ -62,7 +65,10 @@ namespace Wipro.API
                     var instance = new T();
                     instance.GetType().GetProperties().ToList().ForEach(property =>
                     {
-                        instance.GetType().GetProperty(property.Name).SetValue(instance, reader.GetString(property.Name));
+                        instance
+                            .GetType()
+                            .GetProperty(property.Name)
+                            .SetValue(instance, reader.GetString(property.Name));
                     });
                     list.Add(instance);
                 }
@@ -71,7 +77,41 @@ namespace Wipro.API
             }
         }
 
-        public static void Insert<T>(T entity) where T : BaseEntity, new()
+        public List<T> Select(string column, string value)
+        {
+            using (var connection = GetConnection())
+            {
+                var table = new T().GetType().Name;
+
+                var command = connection.CreateCommand();
+                
+                command.CommandText = $"SELECT * FROM {table} WHERE @column = @value";
+                command.Parameters.AddWithValue("@column", column);
+                command.Parameters.AddWithValue("@value", value);
+                
+                var list = new List<T>();
+                var reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    var instance = new T();
+                    
+                    instance.GetType().GetProperties().ToList().ForEach(property =>
+                    {
+                        instance
+                            .GetType()
+                            .GetProperty(property.Name)
+                            .SetValue(instance, reader.GetString(property.Name));
+                    });
+
+                    list.Add(instance);
+                }
+
+                return list;
+            }
+        }
+
+        public T Insert(T entity)
         {
             using (var connection = GetConnection())
             {
@@ -98,15 +138,19 @@ namespace Wipro.API
                 columns
                     .ForEach(column => {
                         var name = $"{column}";
-                        var value = entityType.GetProperty(column).GetValue(entity).ToString();
+                        var obj = entityType.GetProperty(column).GetValue(entity);
+                        var value = obj == default ? "" : obj.ToString();
+
                         command.Parameters.AddWithValue(name, value);
                     });
 
                 command.ExecuteNonQuery();
+
+                return entity;
             }
         }
 
-        public static void Update<T>(T entity) where T : BaseEntity, new()
+        public T Update(T entity)
         {
             using (var connection = GetConnection())
             {
@@ -129,16 +173,20 @@ namespace Wipro.API
                 columns
                     .ForEach(column => {
                         var name = $"{column}";
-                        var value = entityType.GetProperty(column).GetValue(entity).ToString();
+                        var obj = entityType.GetProperty(column).GetValue(entity);
+                        var value = obj == default ? "" : obj.ToString();
+
                         command.Parameters.AddWithValue(name, value);
                     });
 
                 command.ExecuteNonQuery();
+
+                return entity;
             }
         }
 
 
-        public static void Delete<T>(string id) where T : BaseEntity, new()
+        public bool Delete(string id)
         {
             using (var connection = GetConnection())
             {
@@ -150,6 +198,8 @@ namespace Wipro.API
                 command.Parameters.AddWithValue("@id", id);
 
                 command.ExecuteNonQuery();
+
+                return true;
             }
         }
     }

@@ -10,5 +10,7 @@ namespace Wipro.API.Entity
         public string DvdId { get; set; }
         public string CustomerId { get; set; }
         public string LocatorId { get; set; }
+        public string RentDate { get; set; }
+        public string ReturnDate { get; set; }
     }
 }

@@ -1,41 +1,98 @@
-﻿using System.Web.Http;
+﻿using System;
+using Wipro.Dtos;
+using System.Web.Http;
 using Wipro.API.Entity;
-using System.Collections.Generic;
-using System.Web.Http.Cors;
+using Wipro.API.Services;
 
 namespace Wipro.API.Controllers
 {
-    [EnableCors(origins: "http://localhost:3000", headers: "*", methods: "*")]
     public class MoviesController : ApiController
     {
-        // GET api/movie
-        public IEnumerable<Movie> Get()
+        private readonly MoviesService Service = new MoviesService();
+
+        public HttpResponseDto Get()
         {
-            return Repository.Select<Movie>();
+            try
+            {
+                var data = Service.Select();
+
+                return new HttpResponseDto(200)
+                    .SetMessage("Filmes obtidos com sucesso.")
+                    .Send(data);
+            }
+            catch (Exception exception)
+            {
+                return new HttpResponseDto(400)
+                    .SetMessage(exception.Message);
+            }
         }
 
-        // GET api/movie/5
-        public Movie Get(string id)
+        public HttpResponseDto Get(string id)
         {
-            return Repository.Select<Movie>(id);
+            try
+            {
+                var data = Service.Select(id);
+
+                return new HttpResponseDto(200)
+                    .SetMessage("Filme obtido com sucesso.")
+                    .Send(data);
+            }
+            catch (Exception exception)
+            {
+                return new HttpResponseDto(400)
+                    .SetMessage(exception.Message);
+            }
         }
 
-        // POST api/movie
-        public void Post([FromBody] Movie movie)
+        public HttpResponseDto Post([FromBody] Movie movie)
         {
-            Repository.Insert(movie);
+            try
+            {
+                var data = Service.Insert(movie);
+
+                return new HttpResponseDto(201)
+                    .SetMessage("Filme criado com sucesso.")
+                    .Send(data);
+            }
+            catch (Exception exception)
+            {
+                return new HttpResponseDto(400)
+                    .SetMessage(exception.Message);
+            }
         }
 
-        // PUT api/movie/5
-        public void Put(string id, [FromBody] Movie movie)
+        public HttpResponseDto Put([FromBody] Movie movie)
         {
-            Repository.Update(movie);
+
+            try
+            {
+                var data = Service.Update(movie);
+
+                return new HttpResponseDto(200)
+                    .SetMessage("Filme atualizado com sucesso.")
+                    .Send(data);
+            }
+            catch (Exception exception)
+            {
+                return new HttpResponseDto(400)
+                    .SetMessage(exception.Message);
+            }
         }
 
-        // DELETE api/movie/5
-        public void Delete(string id)
+        public HttpResponseDto Delete(string id)
         {
-            Repository.Delete<Movie>(id);
+            try
+            {
+                var data = Service.Delete(id);
+
+                return new HttpResponseDto(200)
+                    .SetMessage("Filme deletado com sucesso.");
+            }
+            catch (Exception exception)
+            {
+                return new HttpResponseDto(400)
+                    .SetMessage(exception.Message);
+            }
         }
     }
 }

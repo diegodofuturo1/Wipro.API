@@ -1,41 +1,98 @@
-﻿using System.Web.Http;
+﻿using System;
+using Wipro.Dtos;
+using System.Web.Http;
 using Wipro.API.Entity;
-using System.Web.Http.Cors;
-using System.Collections.Generic;
+using Wipro.API.Services;
 
 namespace Wipro.API.Controllers
 {
-    [EnableCors(origins: "http://localhost:3000", headers: "*", methods: "*")]
     public class LocatorsController : ApiController
     {
-        // GET api/locator
-        public IEnumerable<Locator> Get()
+        private readonly LocatorsService Service = new LocatorsService();
+
+        public HttpResponseDto Get()
         {
-            return Repository.Select<Locator>();
+            try
+            {
+                var data = Service.Select();
+
+                return new HttpResponseDto(200)
+                    .SetMessage("Locadores obtidos com sucesso.")
+                    .Send(data);
+            }
+            catch (Exception exception)
+            {
+                return new HttpResponseDto(400)
+                    .SetMessage(exception.Message);
+            }
         }
 
-        // GET api/locator/5
-        public Locator Get(string id)
+        public HttpResponseDto Get(string id)
         {
-            return Repository.Select<Locator>(id);
+            try
+            {
+                var data = Service.Select(id);
+
+                return new HttpResponseDto(200)
+                    .SetMessage("Locador obtido com sucesso.")
+                    .Send(data);
+            }
+            catch (Exception exception)
+            {
+                return new HttpResponseDto(400)
+                    .SetMessage(exception.Message);
+            }
         }
 
-        // POST api/locator
-        public void Post([FromBody] Locator locator)
+        public HttpResponseDto Post([FromBody] Locator locator)
         {
-            Repository.Insert(locator);
+            try
+            {
+                var data = Service.Insert(locator);
+
+                return new HttpResponseDto(201)
+                    .SetMessage("Locador criado com sucesso.")
+                    .Send(data);
+            }
+            catch (Exception exception)
+            {
+                return new HttpResponseDto(400)
+                    .SetMessage(exception.Message);
+            }
         }
 
-        // PUT api/locator/5
-        public void Put(string id, [FromBody] Locator locator)
+        public HttpResponseDto Put([FromBody] Locator locator)
         {
-            Repository.Update(locator);
+
+            try
+            {
+                var data = Service.Update(locator);
+
+                return new HttpResponseDto(200)
+                    .SetMessage("Locador atualizado com sucesso.")
+                    .Send(data);
+            }
+            catch (Exception exception)
+            {
+                return new HttpResponseDto(400)
+                    .SetMessage(exception.Message);
+            }
         }
 
-        // DELETE api/locator/5
-        public void Delete(string id)
+        public HttpResponseDto Delete(string id)
         {
-            Repository.Delete<Locator>(id);
+            try
+            {
+                var data = Service.Delete(id);
+
+                return new HttpResponseDto(200)
+                    .SetMessage("Locador deletado com sucesso.");
+            }
+            catch (Exception exception)
+            {
+                return new HttpResponseDto(400)
+                    .SetMessage(exception.Message);
+            }
         }
     }
 }

@@ -1,40 +1,98 @@
-﻿using System.Web.Http;
+﻿using System;
+using Wipro.Dtos;
+using System.Web.Http;
 using Wipro.API.Entity;
-using System.Collections.Generic;
+using Wipro.API.Services;
 
 namespace Wipro.API.Controllers
 {
-    [EnableCors(origins: "http://localhost:3000", headers: "*", methods: "*")]
     public class RentsController : ApiController
     {
-        // GET api/rent
-        public IEnumerable<Rent> Get()
+        private readonly RentsService Service = new RentsService();
+
+        public HttpResponseDto Get()
         {
-            return Repository.Select<Rent>();
+            try
+            {
+                var data = Service.Select();
+
+                return new HttpResponseDto(200)
+                    .SetMessage("Aluguéis obtidos com sucesso.")
+                    .Send(data);
+            }
+            catch (Exception exception)
+            {
+                return new HttpResponseDto(400)
+                    .SetMessage(exception.Message);
+            }
         }
 
-        // GET api/rent/5
-        public Rent Get(string id)
+        public HttpResponseDto Get(string id)
         {
-            return Repository.Select<Rent>(id);
+            try
+            {
+                var data = Service.Select(id);
+
+                return new HttpResponseDto(200)
+                    .SetMessage("Aluguel obtido com sucesso.")
+                    .Send(data);
+            }
+            catch (Exception exception)
+            {
+                return new HttpResponseDto(400)
+                    .SetMessage(exception.Message);
+            }
         }
 
-        // POST api/rent
-        public void Post([FromBody] Rent rent)
+        public HttpResponseDto Post([FromBody] Rent rent)
         {
-            Repository.Insert(rent);
+            try
+            {
+                var data = Service.Insert(rent);
+
+                return new HttpResponseDto(201)
+                    .SetMessage("Aluguel criado com sucesso.")
+                    .Send(data);
+            }
+            catch (Exception exception)
+            {
+                return new HttpResponseDto(400)
+                    .SetMessage(exception.Message);
+            }
         }
 
-        // PUT api/rent/5
-        public void Put(string id, [FromBody] Rent rent)
+        public HttpResponseDto Put([FromBody] Rent rent)
         {
-            Repository.Update(rent);
+
+            try
+            {
+                var data = Service.Update(rent);
+
+                return new HttpResponseDto(200)
+                    .SetMessage("Aluguel atualizado com sucesso.")
+                    .Send(data);
+            }
+            catch (Exception exception)
+            {
+                return new HttpResponseDto(400)
+                    .SetMessage(exception.Message);
+            }
         }
 
-        // DELETE api/rent/5
-        public void Delete(string id)
+        public HttpResponseDto Delete(string id)
         {
-            Repository.Delete<Rent>(id);
+            try
+            {
+                var data = Service.Delete(id);
+
+                return new HttpResponseDto(200)
+                    .SetMessage("Aluguel deletado com sucesso.");
+            }
+            catch (Exception exception)
+            {
+                return new HttpResponseDto(400)
+                    .SetMessage(exception.Message);
+            }
         }
     }
 }

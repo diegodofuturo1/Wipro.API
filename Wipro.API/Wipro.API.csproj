@@ -310,6 +310,8 @@
     <Compile Include="Controller\HomeController.cs" />
     <Compile Include="Controller\CustomersController.cs" />
     <Compile Include="Controller\ValuesController.cs" />
+    <Compile Include="Dto\DvdDto.cs" />
+    <Compile Include="Dto\RentDto.cs" />
     <Compile Include="Entity\User.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -320,8 +322,14 @@
     <Compile Include="Entity\Movie.cs" />
     <Compile Include="Entity\Locator.cs" />
     <Compile Include="Entity\Rent.cs" />
+    <Compile Include="Dto\HttpResponseDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\Repository.cs" />
+    <Compile Include="Service\RentsService.cs" />
+    <Compile Include="Service\MoviesService.cs" />
+    <Compile Include="Service\LocatorsService.cs" />
+    <Compile Include="Service\DvdsService.cs" />
+    <Compile Include="Service\CustomersService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

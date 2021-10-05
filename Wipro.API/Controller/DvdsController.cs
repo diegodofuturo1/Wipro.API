@@ -1,44 +1,98 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System;
+using Wipro.Dtos;
 using System.Web.Http;
-using System.Web.Http.Cors;
-using System.Web.Mvc;
 using Wipro.API.Entity;
-
+using Wipro.API.Services;
 
 namespace Wipro.API.Controllers
 {
-    [EnableCors(origins: "http://localhost:3000", headers: "*", methods: "*")]
     public class DvdsController : ApiController
     {
-        // GET api/dvd
-        public IEnumerable<Dvd> Get()
+        private readonly DvdsService Service = new DvdsService();
+
+        public HttpResponseDto Get()
         {
-            return Repository.Select<Dvd>();
+            try
+            {
+                var data = Service.Select();
+
+                return new HttpResponseDto(200)
+                    .SetMessage("Dvds obtidos com sucesso.")
+                    .Send(data);
+            }
+            catch (Exception exception)
+            {
+                return new HttpResponseDto(400)
+                    .SetMessage(exception.Message);
+            }
         }
 
-        // GET api/dvd/5
-        public Dvd Get(string id)
+        public HttpResponseDto Get(string id)
         {
-            return Repository.Select<Dvd>(id);
+            try
+            {
+                var data = Service.Select(id);
+
+                return new HttpResponseDto(200)
+                    .SetMessage("Dvd obtido com sucesso.")
+                    .Send(data);
+            }
+            catch (Exception exception)
+            {
+                return new HttpResponseDto(400)
+                    .SetMessage(exception.Message);
+            }
         }
 
-        // POST api/dvd
-        public void Post([FromBody] Dvd dvd)
+        public HttpResponseDto Post([FromBody] Dvd dvd)
         {
-            Repository.Insert(dvd);
+            try
+            {
+                var data = Service.Insert(dvd);
+
+                return new HttpResponseDto(201)
+                    .SetMessage("Dvd criado com sucesso.")
+                    .Send(data);
+            }
+            catch (Exception exception)
+            {
+                return new HttpResponseDto(400)
+                    .SetMessage(exception.Message);
+            }
         }
 
-        // PUT api/dvd/5
-        public void Put(string id, [FromBody] Dvd dvd)
+        public HttpResponseDto Put([FromBody] Dvd dvd)
         {
-            Repository.Update(dvd);
+
+            try
+            {
+                var data = Service.Update(dvd);
+
+                return new HttpResponseDto(200)
+                    .SetMessage("Dvd atualizado com sucesso.")
+                    .Send(data);
+            }
+            catch (Exception exception)
+            {
+                return new HttpResponseDto(400)
+                    .SetMessage(exception.Message);
+            }
         }
 
-        // DELETE api/dvd/5
-        public void Delete(string id)
+        public HttpResponseDto Delete(string id)
         {
-            Repository.Delete<Dvd>(id);
+            try
+            {
+                var data = Service.Delete(id);
+
+                return new HttpResponseDto(200)
+                    .SetMessage("Dvd deletado com sucesso.");
+            }
+            catch (Exception exception)
+            {
+                return new HttpResponseDto(400)
+                    .SetMessage(exception.Message);
+            }
         }
     }
 }

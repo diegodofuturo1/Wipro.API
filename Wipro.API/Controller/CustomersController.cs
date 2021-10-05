@@ -1,44 +1,98 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System;
+using Wipro.Dtos;
 using System.Web.Http;
-using System.Web.Http.Cors;
-using System.Web.Mvc;
 using Wipro.API.Entity;
-
+using Wipro.API.Services;
 
 namespace Wipro.API.Controllers
 {
-    [EnableCors(origins: "http://localhost:3000", headers: "*", methods: "*")]
     public class CustomersController : ApiController
     {
-        // GET api/customer
-        public IEnumerable<Customer> Get()
+        private readonly CustomersService Service = new CustomersService();
+
+        public HttpResponseDto Get()
         {
-            return Repository.Select<Customer>();
+            try
+            {
+                var data = Service.Select();
+                
+                return new HttpResponseDto(200)
+                    .SetMessage("Clientes obtidos com sucesso.")
+                    .Send(data);
+            }
+            catch (Exception exception)
+            {
+                return new HttpResponseDto(400)
+                    .SetMessage(exception.Message);
+            }
         }
 
-        // GET api/customer/5
-        public Customer Get(string id)
+        public HttpResponseDto Get(string id)
         {
-            return Repository.Select<Customer>(id);
+            try
+            {
+                var data = Service.Select(id);
+
+                return new HttpResponseDto(200)
+                    .SetMessage("Cliente obtido com sucesso.")
+                    .Send(data);
+            }
+            catch (Exception exception)
+            {
+                return new HttpResponseDto(400)
+                    .SetMessage(exception.Message);
+            }
         }
 
-        // POST api/customer
-        public void Post([FromBody] Customer customer)
+        public HttpResponseDto Post([FromBody] Customer customer)
         {
-            Repository.Insert(customer);
+            try
+            {
+                var data = Service.Insert(customer);
+
+                return new HttpResponseDto(201)
+                    .SetMessage("Cliente criado com sucesso.")
+                    .Send(data);
+            }
+            catch (Exception exception)
+            {
+                return new HttpResponseDto(400)
+                    .SetMessage(exception.Message);
+            }
         }
 
-        // PUT api/customer/5
-        public void Put(string id, [FromBody] Customer customer)
+        public HttpResponseDto Put([FromBody] Customer customer)
         {
-            Repository.Update(customer);
+
+            try
+            {
+                var data = Service.Update(customer);
+                
+                return new HttpResponseDto(200)
+                    .SetMessage("Cliente atualizado com sucesso.")
+                    .Send(data);
+            }
+            catch (Exception exception)
+            {
+                return new HttpResponseDto(400)
+                    .SetMessage(exception.Message);
+            }
         }
 
-        // DELETE api/customer/5
-        public void Delete(string id)
+        public HttpResponseDto Delete(string id)
         {
-            Repository.Delete<Customer>(id);
+            try
+            {
+                var data = Service.Delete(id);
+
+                return new HttpResponseDto(200)
+                    .SetMessage("Cliente deletado com sucesso.");
+            }
+            catch (Exception exception)
+            {
+                return new HttpResponseDto(400)
+                    .SetMessage(exception.Message);
+            }
         }
     }
 }
