@@ -85,8 +85,8 @@ namespace Wipro.API
 
                 var command = connection.CreateCommand();
                 
-                command.CommandText = $"SELECT * FROM {table} WHERE @column = @value";
-                command.Parameters.AddWithValue("@column", column);
+                command.CommandText = $"SELECT * FROM {table} WHERE {column} = @value";
+                //command.Parameters.AddWithValue("@column", column);
                 command.Parameters.AddWithValue("@value", value);
                 
                 var list = new List<T>();
